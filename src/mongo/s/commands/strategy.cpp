@@ -324,7 +324,7 @@ void Strategy::clientCommandOp(OperationContext* txn, Request& request) {
             return;
         } catch (const StaleConfigException& e) {
             if (loops <= 0)
-                throw e;
+                throw;
 
             loops--;
 
