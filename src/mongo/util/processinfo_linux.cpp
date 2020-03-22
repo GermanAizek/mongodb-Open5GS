@@ -37,8 +37,10 @@
 #include <sys/utsname.h>
 #ifdef __UCLIBC__
 #include <features.h>
-#else
+#elif defined(__GLIBC__)
 #include <gnu/libc-version.h>
+#else
+#define gnu_get_libc_version(x) "Unknow"
 #endif
 
 #include "processinfo.h"
@@ -339,6 +341,7 @@ public:
         paths.push_back("/etc/debian_release");
         paths.push_back("/etc/slackware-version");
         paths.push_back("/etc/centos-release");
+        paths.push_back("/etc/alpine-release");
         paths.push_back("/etc/os-release");
 
         for (i = paths.begin(); i != paths.end(); ++i) {
@@ -425,10 +428,12 @@ double ProcessInfo::getSystemMemoryPressurePercentage() {
 
 void ProcessInfo::getExtraInfo(BSONObjBuilder& info) {
     // [dm] i don't think mallinfo works. (64 bit.)  ??
-    struct mallinfo malloc_info =
-        mallinfo();  // structure has same name as function that returns it. (see malloc.h)
-    info.append("heap_usage_bytes",
-                malloc_info.uordblks /*main arena*/ + malloc_info.hblkhd /*mmap blocks*/);
+    #ifdef MONGO_CONFIG_HAVE_MALLINFO
+        struct mallinfo malloc_info =
+            mallinfo();  // structure has same name as function that returns it. (see malloc.h)
+        info.append("heap_usage_bytes",
+                    malloc_info.uordblks /*main arena*/ + malloc_info.hblkhd /*mmap blocks*/);
+    #endif
     // docs claim hblkhd is included in uordblks but it isn't
 
     LinuxProc p(_pid);
