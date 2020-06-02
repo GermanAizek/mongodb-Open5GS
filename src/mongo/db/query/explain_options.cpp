@@ -37,6 +37,8 @@
 namespace mongo {
 
 constexpr StringData ExplainOptions::kVerbosityName;
+constexpr StringData ExplainOptions::kDatabaseName;
+constexpr StringData ExplainOptions::kLogicalSessionIdName;
 constexpr StringData ExplainOptions::kQueryPlannerVerbosityStr;
 constexpr StringData ExplainOptions::kExecStatsVerbosityStr;
 constexpr StringData ExplainOptions::kAllPlansExecutionVerbosityStr;
@@ -79,7 +81,22 @@ StatusWith<ExplainOptions::Verbosity> ExplainOptions::parseCmdBSON(const BSONObj
         }
     }
 
-    return verbosity;
+    bool first = true;
+    for (auto&& elem : cmdObj) {
+        // Skip first argument as it is the command itself.
+        if (first) {
+            first = false;
+            continue;
+        }
+        auto name = elem.fieldNameStringData();
+        if (name == kVerbosityName || name == kDatabaseName || name == kLogicalSessionIdName)
+            continue;
+
+        return Status(ErrorCodes::InvalidOptions,
+                      str::stream() << "explain does not support '" << name << "' argument.");
+    }
+
+    return StatusWith(verbosity);
 }
 
 BSONObj ExplainOptions::toBSON(ExplainOptions::Verbosity verbosity) {
