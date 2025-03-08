@@ -5,17 +5,19 @@
 # Requirements for Building
 
 - Debian 12 (older without Python and GCC patches) or other APT manager-like Distro
-- 128 GB free space
-- 32 GB RAM
+- 48 GB free space
+- 16 GB RAM minimum
 
-Need packages:
+# Building Mongo Daemon
+
+Need installed packages for building from sources:
 
 ```
 sudo apt-get install libssl-dev lld python3-venv python3-pip liblzma-dev libcurl4-openssl-dev build-essential git scons
 sudo apt-get install python3-dev python3-pip libssl-dev libcurl4-openssl-dev libboost-dev python-dev-is-python3 libssl-dev
 ```
 
-# Building Mongo Daemon
+Cloning repo:
 
 ```
 git clone https://github.com/GermanAizek/mongodb-Open5GS
@@ -116,11 +118,47 @@ else
 fi
 ```
 
+To compile with meson:
+
+```
+meson build --prefix=`pwd`/install
+ninja -C build
+```
+
+Check results unit-tests:
+
+All tests must have `All tests passed.`
+
+```
+build/tests/attach/attach
+build/tests/registration/registration
+```
+
+Run all test programs as below.
+
+```
+cd build
+meson test -v
+```
+
+Installing Open5GS in system.
+
+```
+ninja install
+cd ../
+```
+
+
+
 ## LICENSE
 
-MongoDB is free and the source is available. Versions released prior to
-October 16, 2018 are published under the AGPL. All versions released after
-October 16, 2018, including patch fixes for prior versions, are published
-under the [Server Side Public License (SSPL) v1](LICENSE-Community.txt).
-See individual files for details which will specify the license applicable
-to each file. Files subject to the SSPL will be noted in their headers.
+
+- Open5GS Open Source files are made available under the terms of the GNU Affero General Public License ([GNU AGPL v3.0](https://www.gnu.org/licenses/agpl-3.0.html)).
+
+- MongoDB is free and the source is available. Versions released prior to
+  October 16, 2018 are published under the AGPL. All versions released after
+  October 16, 2018, including patch fixes for prior versions, are published
+  under the [Server Side Public License (SSPL) v1](LICENSE-Community.txt).
+  
+  See individual files for details which will specify the license applicable
+  to each file. Files subject to the SSPL will be noted in their headers.
