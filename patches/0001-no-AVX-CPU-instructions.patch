@@ -1,0 +1,51 @@
+From e062d40051487b00978db4fd1f65989a5700e2f3 Mon Sep 17 00:00:00 2001
+From: Herman Semenov <GermanAizek@yandex.ru>
+Date: Sat, 8 Mar 2025 13:19:37 +0300
+Subject: [PATCH] No AVX CPU instructions
+
+---
+ SConstruct                                                      | 2 +-
+ .../abseil-cpp/absl/copts/GENERATED_AbseilCopts.cmake           | 2 +-
+ .../abseil-cpp-master/abseil-cpp/absl/copts/copts.py            | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/SConstruct b/SConstruct
+index dbe1391c7d9..5b1eff31b85 100644
+--- a/SConstruct
++++ b/SConstruct
+@@ -313,7 +313,7 @@ add_option('experimental-optimization',
+     action="append",
+     choices=experimental_optimization_choices,
+     const=experimental_optimization_choices[0],
+-    default=['+sandybridge'],
++    default=[],
+     help='Enable experimental optimizations',
+     nargs='?',
+     type='choice'
+diff --git a/src/third_party/abseil-cpp-master/abseil-cpp/absl/copts/GENERATED_AbseilCopts.cmake b/src/third_party/abseil-cpp-master/abseil-cpp/absl/copts/GENERATED_AbseilCopts.cmake
+index 51742c9b6b3..69ce4d5a4a9 100644
+--- a/src/third_party/abseil-cpp-master/abseil-cpp/absl/copts/GENERATED_AbseilCopts.cmake
++++ b/src/third_party/abseil-cpp-master/abseil-cpp/absl/copts/GENERATED_AbseilCopts.cmake
+@@ -158,5 +158,5 @@ list(APPEND ABSL_RANDOM_HWAES_MSVC_X64_FLAGS
+ 
+ list(APPEND ABSL_RANDOM_HWAES_X64_FLAGS
+     "-maes"
+-    "-msse4.1"
++    "-msse3"
+ )
+diff --git a/src/third_party/abseil-cpp-master/abseil-cpp/absl/copts/copts.py b/src/third_party/abseil-cpp-master/abseil-cpp/absl/copts/copts.py
+index cf52981c58c..3e8dd15c4df 100644
+--- a/src/third_party/abseil-cpp-master/abseil-cpp/absl/copts/copts.py
++++ b/src/third_party/abseil-cpp-master/abseil-cpp/absl/copts/copts.py
+@@ -156,7 +156,7 @@ COPT_VARS = {
+     "ABSL_RANDOM_HWAES_ARM32_FLAGS": ["-mfpu=neon"],
+     "ABSL_RANDOM_HWAES_X64_FLAGS": [
+         "-maes",
+-        "-msse4.1",
++        "-msse3",
+     ],
+     "ABSL_RANDOM_HWAES_MSVC_X64_FLAGS": [],
+ }
+-- 
+2.47.2
+

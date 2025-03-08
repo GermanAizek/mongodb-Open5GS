@@ -1,0 +1,25 @@
+From f71cdf5a85eae52e8b5319edd621a3b32ec82dc7 Mon Sep 17 00:00:00 2001
+From: Herman Semenov <GermanAizek@yandex.ru>
+Date: Sat, 8 Mar 2025 13:23:55 +0300
+Subject: [PATCH] Python 3.12 and newer fix
+
+---
+ buildscripts/moduleconfig.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/buildscripts/moduleconfig.py b/buildscripts/moduleconfig.py
+index b4d0bba0490..6cc059cfd88 100644
+--- a/buildscripts/moduleconfig.py
++++ b/buildscripts/moduleconfig.py
+@@ -27,7 +27,7 @@ MongoDB SConscript files do.
+ __all__ = ('discover_modules', 'discover_module_directories', 'configure_modules',
+            'register_module_test')  # pylint: disable=undefined-all-variable
+ 
+-import imp
++import importlib as imp
+ import inspect
+ import os
+ 
+-- 
+2.47.2
+

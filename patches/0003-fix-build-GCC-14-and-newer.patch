@@ -1,0 +1,24 @@
+From 8fc3256745cfc90ba05c668f20da9b4aecc15b28 Mon Sep 17 00:00:00 2001
+From: Herman Semenov <GermanAizek@yandex.ru>
+Date: Sat, 8 Mar 2025 13:27:01 +0300
+Subject: [PATCH] Fix build GCC 14 and newer
+
+---
+ src/mongo/util/ctype.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/mongo/util/ctype.h b/src/mongo/util/ctype.h
+index a3880e281a8..78ee57e3d0c 100644
+--- a/src/mongo/util/ctype.h
++++ b/src/mongo/util/ctype.h
+@@ -67,6 +67,7 @@
+ #pragma once
+ 
+ #include <array>
++#include <cstdint>
+ 
+ namespace mongo::ctype {
+ namespace detail {
+-- 
+2.47.2
+
