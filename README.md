@@ -8,12 +8,19 @@
 - 128 GB free space
 - 32 GB RAM
 
+Need packages:
+
+```
+sudo apt-get install libssl-dev lld python3-venv python3-pip liblzma-dev libcurl4-openssl-dev build-essential git scons
+sudo apt-get install python3-dev python3-pip libssl-dev libcurl4-openssl-dev libboost-dev python-dev-is-python3 libssl-dev
+```
+
 # Building
 
 ```
 git clone https://github.com/GermanAizek/mongodb-Open5GS
 cd mongodb-Open5GS
-git checkout r6.0.20
+git checkout open5gs
 ```
 
 Configuration build using patches:
@@ -40,6 +47,11 @@ If you want to reduce size mongo binaries:
 
 ```
 git apply < patches/0004-reduce-output-binary-size.patch
+```
+
+Starting building:
+```
+python3 buildscripts/scons.py DESTDIR=/usr/local/mongo install-mongod --disable-warnings-as-errors
 ```
 
 ## LICENSE
