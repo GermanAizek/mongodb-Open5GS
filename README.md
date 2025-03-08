@@ -1,46 +1,90 @@
-# ![Logo](docs/leaf.svg) MongoDB Open5GS README
+# ![Logo](docs/leaf.svg) MongoDB README
 
-![изображение](https://github.com/user-attachments/assets/cd2cffd2-2161-4aa1-a7d4-ae4116f7b9f8)
+Welcome to MongoDB!
 
-# Requirements for Building
+## Components
 
-- Debian 12 (Debian older if not apply patches Python-Fix and GCC-14)
-- 128 GB free space
-- 32 GB RAM
+- `mongod` - The database server.
+- `mongos` - Sharding router.
 
-# Building
+## Download MongoDB
 
-```
-git clone https://github.com/GermanAizek/mongodb-Open5GS
-cd mongodb-Open5GS
-git checkout r6.0.20
-```
+- https://www.mongodb.com/try/download/community
+- Using homebrew `brew tap mongodb/brew`
+- Using docker image `docker pull mongo`
 
-Configuration build using patches:
+## Download the MongoDB Shell
 
-If CPU don't support AVX (old CPU or new low power CPU):
+- https://www.mongodb.com/try/download/shell
+- Using homebrew `brew install mongosh`
 
-```
-git apply < patches/0001-no-AVX-CPU-instructions.patch
-```
+## Building
 
-If use Python 3.12 and newer versions:
+See [Building MongoDB](docs/building.md).
 
-```
-git apply < patches/0002-python-3.12-and-newer-fix.patch
-```
+## Running
 
-If use GCC 14 and newer versions:
+For command line options invoke:
 
-```
-git apply < patches/0003-fix-build-GCC-14-and-newer.patch
+```bash
+$ ./mongod --help
 ```
 
-If you want to reduce size mongo binaries:
+To run a single server database:
 
+```bash
+$ sudo mkdir -p /data/db
+$ ./mongod
+$
+$ # The mongosh shell connects to localhost and test database by default:
+$ ./mongosh
+test> help
 ```
-git apply < patches/0004-reduce-output-binary-size.patch
+
+## Installing Compass
+
+You can install compass using the `install_compass` script packaged with MongoDB:
+
+```bash
+$ ./install_compass
 ```
+
+This will download the appropriate MongoDB Compass package for your platform
+and install it.
+
+## Drivers
+
+Client drivers for most programming languages are available at
+https://docs.mongodb.com/manual/applications/drivers/.
+
+## Bug Reports
+
+See https://github.com/mongodb/mongo/wiki/Submit-Bug-Reports.
+
+## Packaging
+
+Packages are created dynamically by the [buildscripts/packager.py](buildscripts/packager.py) script.
+This will generate RPM and Debian packages.
+
+## Learn MongoDB
+
+- Documentation - https://docs.mongodb.com/manual/
+- Developer Center - https://www.mongodb.com/developer/
+- MongoDB University - https://learn.mongodb.com
+
+## Cloud Hosted MongoDB
+
+https://www.mongodb.com/cloud/atlas
+
+## Forums
+
+- https://mongodb.com/community/forums/
+
+  Technical questions about using MongoDB.
+
+- https://mongodb.com/community/forums/c/server-dev
+
+  Technical questions about building and developing MongoDB.
 
 ## LICENSE
 
